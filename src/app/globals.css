@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  overflow: hidden;
+  background-image: linear-gradient(to right, rgb(77, 77, 122), rgb(27, 27, 26));
+  animation: gradient 6s ease infinite;
+  background-size: 200% auto;
+  /* Vendor prefixes */
+  -webkit-animation: gradient 6s ease infinite;
+  -moz-animation: gradient 6s ease infinite;
+  -o-animation: gradient 6s ease infinite;
+  animation: gradient 6s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media screen and (min-width: 280px) and (max-width: 860px){
+    body {
+      
+    }
+}
