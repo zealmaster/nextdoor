@@ -2,7 +2,7 @@
 import styles from './page.module.css'
 import Image from 'next/image'
 import { useRouter } from "next/navigation"
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 
@@ -15,9 +15,11 @@ const Signup = () => {
     })
     const [latitude, setLatitude] = useState(0)
     const [longitude, setLongitude] = useState(0)
+    const [errorMsg, setErrorMsg] = useState("")
 
     const userData = {...user, latitude, longitude}
-    if (typeof window !== 'undefined' && navigator.geolocation) {
+    
+    useEffect(() => {if (typeof window !== 'undefined' && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             setLatitude(position.coords.latitude);
@@ -30,15 +32,18 @@ const Signup = () => {
       } 
       else {
         console.error('Geolocation is not supported by this browser.');
-      }
+      }}, [])
+
     const onSignUp = async (e: any) => {
         e.preventDefault()
         try {
             const response = await axios.post('/api/signup', userData)
             console.log(response.data.message)
-            redirect.push('/login')
+            setErrorMsg(response.data.message)
+            if (response.data.message === "Sign up is successful") redirect.push('/login')
         } catch (error: any) {
             console.log(error.message)
+            setErrorMsg(error.message)
         }
     }
         return(
@@ -47,8 +52,9 @@ const Signup = () => {
            <div>
             <div className={styles.signupHeader}>Sign Up</div>
             <form className={styles.form} onSubmit={onSignUp}>
+            {errorMsg && <div>{errorMsg}</div>}
                 <div className={styles.formField}>
-                <label>username</label>
+                <label>Username</label>
                 <input 
                 type='username' 
                 name='username' 

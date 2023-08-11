@@ -4,15 +4,15 @@ import { connect } from '../dbconfig/mongodb';
 connect()
 
 const forumSchema = new mongoose.Schema({
-    userId: {
-        type: Number,
+    username: {
+        type: String,
         required: [true, 'Please provide a username'],
         default: false,
         unique: true
     },
     message: {
         type: String,
-        required: [true, 'Please provide password']
+        required: [true, 'Message cannot be empty']
     },
     longitude: {
         type: Number,
@@ -25,9 +25,41 @@ const forumSchema = new mongoose.Schema({
     created_at: {
         type: Date,
         default: Date.now()
+    },
+    comments : [
+    {
+        author: {
+           type: String
+        },
+        comment: {
+            type: String,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now()
+        }
     }
+    ],
+    
+    likes: [
+        {
+            like: {
+                type: Number,
+                default: 0
+            }
+        }
+    ],
+
+    dislikes: [
+        {
+            dislike: {
+                type: Number,
+                default: 0
+        }
+        }
+    ],
 })
 
-const Forum = mongoose.models.forums || mongoose.model('users', forumSchema)
+const Forum = mongoose.models.forums || mongoose.model('forums', forumSchema)
 
 export default Forum;

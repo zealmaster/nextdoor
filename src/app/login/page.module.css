@@ -15,7 +15,7 @@
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.24);
-  
+    gap: 20px;
   }
   .formField {
     height: 58px;
@@ -39,7 +39,7 @@
   }
   
   .formField label {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 13px;
     color: white;
   }
@@ -62,7 +62,7 @@
     font-size: 12px;
     font-weight: 250;
     position: absolute;
-    top: 340px;
+    top: 330px;
     left: 130px;
     height: 1px;
     color: whitesmoke;
