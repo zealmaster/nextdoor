@@ -56,7 +56,7 @@ const ForumFeeds = () => {
           };
       
           fetchData();
-      })
+      }, [router])
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
