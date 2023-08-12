@@ -41,23 +41,15 @@ const forumSchema = new mongoose.Schema({
     }
     ],
     
-    likes: [
-        {
-            like: {
+    likes: {
                 type: Number,
                 default: 0
-            }
-        }
-    ],
+            },
 
-    dislikes: [
-        {
-            dislike: {
+    dislikes:  {
                 type: Number,
                 default: 0
         }
-        }
-    ],
 })
 
 const Forum = mongoose.models.forums || mongoose.model('forums', forumSchema)

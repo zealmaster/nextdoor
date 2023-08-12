@@ -74,7 +74,9 @@ const ForumFeeds = () => {
 
     const onLike = async () => {
       try {
+        setLike(like + 1)
         const response = await axios.post('/api/like', {like, postId})
+        router.refresh()
         console.log(postId)
         console.log(like)
       } catch (error) {
@@ -84,9 +86,11 @@ const ForumFeeds = () => {
 
     const onDislike = async () => {
       try {
-        // const response = await axios.post('/api/dislike', {dislike, postId})
+        setDislike(dislike + 1)
+        const response = await axios.post('/api/dislike', {dislike, postId})
+        router.refresh()
         console.log(postId)
-        console.log(like)
+        console.log(dislike)
       } catch (error) {
         console.log(error)
       }
@@ -146,9 +150,9 @@ const ForumFeeds = () => {
                             height={15} 
                             width={15} 
                             alt='like a post' 
-                            onClick={()=>{onLike(); setPostId(item._id); setLike(item.likes.like)}}
+                            onClick={()=>{onLike(); setPostId(item._id)}}
                             />
-                            {(item.likes).map((value:any) => value.like)}
+                            {item.likes}
                       </span> 
 
                       <span>
@@ -166,9 +170,9 @@ const ForumFeeds = () => {
                         height={15} 
                         width={15} 
                         alt='dislike a post' 
-                        onClick={()=>{onDislike(); setPostId(item._id); setDislike(item.dislikes.dislike + 1)}}
+                        onClick={()=>{onDislike(); setPostId(item._id);}}
                         />
-                        {dislike}
+                        {item.dislikes}
                       </span>
 
                   </div>

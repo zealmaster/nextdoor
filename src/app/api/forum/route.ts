@@ -7,6 +7,30 @@ dotenv.config()
 
 connect();
 
+function location() {
+    let latitude = 0
+    let longitude = 0
+    if (typeof window !== 'undefined' && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            console.log(latitude)
+            return {latitude, longitude}
+          },
+          (error) => {
+            console.error('Error getting geolocation:', error.message);
+          }
+        );
+        return {latitude, longitude}
+      } 
+      else {
+        console.error('Geolocation is not supported by this browser.');
+      }
+      return {latitude, longitude}
+}
+
+
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
@@ -37,7 +61,6 @@ export async function GET(res: NextResponse, req: NextRequest) {
         if (!data || data.length === 0) {
           return { message: "No posts found" };
         }
-
         return NextResponse.json({data, message: 'fetch post successfully'});
     } catch (error:any) {
         console.log(error);

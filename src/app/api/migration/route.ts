@@ -8,7 +8,7 @@ export async function  POST(req: NextRequest) {
     try {
         await Forum.updateMany(
             {},
-            {$set: {likes: [], dislikes: []}}
+            {$set: {likes: 0, dislikes: 0}}
         );
         return NextResponse.json({message: 'Migration successful'})
     } catch (error) {
