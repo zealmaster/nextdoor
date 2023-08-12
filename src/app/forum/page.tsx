@@ -56,7 +56,7 @@ const ForumFeeds = () => {
           };
       
           fetchData();
-      }, [])
+      })
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
