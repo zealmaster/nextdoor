@@ -178,7 +178,7 @@ const ForumFeeds = () => {
                   </div>
 
                   <div className={!openComment ? styles.showComment : styles.hideComment} >
-                  {(item.comments).map((value:any) => (
+                  {item.comments !== undefined  && (item.comments).map((value:any) => (
                       <div className={styles.comment} key={value._id}>
                             <span>{value.author}</span> <span>{value.createdAt}</span>
                             <section>{value.comment}</section>

@@ -3,7 +3,7 @@ import styles from './page.module.css'
 const SiteTitle = () => {
 
     return (
-        <div className={styles.siteTitle}><Link href='/'>Nextdoor</Link></div>
+        <div className={styles.siteTitle}><Link href='/'>Nexxdoor</Link></div>
     )
 }
 export default SiteTitle;
