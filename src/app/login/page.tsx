@@ -41,9 +41,9 @@ const Signup = () => {
             const response = await axios.post('/api/login', userData)
             console.log(response.data.message)
             setErrorMsg(await response.data.message)
-            if (await response.data.message === "Please turned on your device location") redirect.replace('/locationUpdate')
-            redirect.push('')
-            if (await response.data.message === "You are at home") redirect.replace('/forum')
+            if (await response.data.message === "Please turned on your device location") redirect.push('/locationUpdate')
+            redirect.replace('')
+            if (await response.data.message === "You are at home") redirect.push('/forum')
         } catch (error: any) {
             console.log(error.message)
             setErrorMsg(error.message)

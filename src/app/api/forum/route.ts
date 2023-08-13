@@ -56,15 +56,31 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-    try {
-        const data = await Forum.find().sort({ created_at: -1 });
-        if (!data || data.length === 0) {
-          return { message: "No posts found" };
+  // if (typeof window !== 'undefined' && navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition(
+  //     async (position) => {
+  //       const latitude = position.coords.latitude;
+  //       const longitude = position.coords.longitude;
+  //       console.log(latitude);
+        
+        try {
+          const data = await Forum.find().sort({ created_at: -1 });
+          if (!data || data.length === 0) {
+            return NextResponse.json({ message: "No posts found" });
+          }
+          return NextResponse.json({ data, message: 'Fetched posts successfully' });
+        } catch (error: any) {
+          console.log(error);
+          return NextResponse.json({ error, message: "An error occurred fetching posts" });
         }
-        return NextResponse.json({data, message: 'fetch post successfully'});
-    } catch (error:any) {
-        console.log(error);
-        return NextResponse.json({error, message: "An error occurred fetching posts" });
-    }   
+  //     },
+  //     (error) => {
+  //       console.error('Error getting geolocation:', error.message);
+  //     }
+  //   );
+  // } else {
+  //   console.error('Geolocation is not supported by this browser.');
+  // }
 }
+
 
