@@ -16,7 +16,9 @@ export async function POST(req: NextRequest) {
         if (existingUser) {
             return NextResponse.json({ message: "Username already exist" });
         }
-
+        if (latitude === 0 && longitude === 0) {
+            return NextResponse.json({ message: "Please turned on your device location" });
+        }
         const newUser = new User({
             username,
             password: passwordHash,

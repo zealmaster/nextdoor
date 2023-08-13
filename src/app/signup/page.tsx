@@ -40,7 +40,9 @@ const Signup = () => {
             const response = await axios.post('/api/signup', userData)
             console.log(response.data.message)
             setErrorMsg(response.data.message)
-            if (response.data.message === "Sign up is successful") redirect.push('/login')
+            if (await response.data.message === "Please turned on your device location") redirect.replace('/locationUpdate')
+            redirect.push('')
+            if (response.data.message === "Sign up is successful") redirect.replace('/login')
         } catch (error: any) {
             console.log(error.message)
             setErrorMsg(error.message)

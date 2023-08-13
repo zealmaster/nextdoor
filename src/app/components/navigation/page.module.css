@@ -114,7 +114,7 @@
     padding: 30px 10px;
     gap: 60px;
     background-color: rgb(77, 77, 122);
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 30px;
     width: 100%;

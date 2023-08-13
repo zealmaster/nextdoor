@@ -49,7 +49,7 @@ const ForumFeeds = () => {
           
             try {
               const response = await axios.get('/api/forum');
-              setPosts(response.data.data);
+              if (response.data.data !== null) setPosts(response.data.data);
             } catch (error) {
               console.error('Error fetching data:', error);
             }
@@ -111,7 +111,7 @@ const ForumFeeds = () => {
       }
     }
 
-  return(
+  return (
   <main >
       <div>
 
@@ -132,7 +132,7 @@ const ForumFeeds = () => {
                   <button type='submit' className={styles.postButton}>Post</button>
               </form>
               </div>
-              {posts.map((item:any) => (
+              {posts.length !== 0 && posts.map((item:any) => (
               <section key={item._id}  className={styles.post}>
                   <div className={styles.author}>
                       <span className={styles.authorDP}>

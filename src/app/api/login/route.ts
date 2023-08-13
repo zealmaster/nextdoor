@@ -20,6 +20,9 @@ export async function POST(req: NextRequest) {
         if (!passwordCheck) {
             return NextResponse.json({ message: "Password is wrong" });
         }
+        if (latitude === 0 && longitude === 0) {
+            return NextResponse.json({ message: "Please turned on your device location" });
+        }
         // Create token data
         const tokenData = {
             id: existingUser._id,
@@ -32,9 +35,6 @@ export async function POST(req: NextRequest) {
         const response = NextResponse.json({ message: "You are at home", success: true});
         response.cookies.set('token', token, {httpOnly: true})
         return response
-        // if (latitude === existingUser.latitude && longitude === existingUser.longitude) {
-        //     return NextResponse.json({ message: "You are at home" });
-        // }
     } catch (error) {
         console.log(error);
         return NextResponse.json({error: error, message: "An error occurred while logging in" });
