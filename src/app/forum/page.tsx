@@ -25,34 +25,36 @@ const ForumFeeds = () => {
 
     const postData = {...userPost, latitude, longitude}
     const commentData = {postId, comment}
-
-    if (typeof window !== 'undefined' && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setLatitude(position.coords.latitude);
-            setLongitude(position.coords.longitude);
-          },
-          (error) => {
-            console.error('Error getting geolocation:', error.message);
-          }
-        );
-      } 
-      else {
-        console.error('Geolocation is not supported by this browser.');
-      }
     
       useEffect(()=>{
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 2000)
         const fetchData = async () => {
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 2000);
-          
+          if (typeof window !== 'undefined' && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                setLatitude(position.coords.latitude)
+                setLongitude(position.coords.longitude)
+                
+          console.log(latitude, longitude)
             try {
-              const response = await axios.get('/api/forum');
+              const response = await axios.get(`/api/forum/${latitude}/${longitude}`);
               if (response.data.data !== null) setPosts(response.data.data);
+              console.log(response.data)
             } catch (error) {
               console.error('Error fetching data:', error);
             }
+          },
+            (error) => {
+              console.error('Error getting geolocation:', error.message);
+            }
+          );
+        } else {
+          console.error('Geolocation is not supported by this browser.');
+        }
           };
       
           fetchData();
@@ -132,7 +134,7 @@ const ForumFeeds = () => {
                   <button type='submit' className={styles.postButton}>Post</button>
               </form>
               </div>
-              {posts.length !== 0 && posts.map((item:any) => (
+              {(typeof posts !== 'undefined' && posts.length !== 0) && posts.map((item:any) => (
               <section key={item._id}  className={styles.post}>
                   <div className={styles.author}>
                       <span className={styles.authorDP}>

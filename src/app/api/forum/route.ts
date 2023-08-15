@@ -3,33 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import Forum from "@/app/model/forumModel";
 import Jwt  from "jsonwebtoken";
 import * as dotenv from 'dotenv'
+import { NextApiRequest } from "next";
 dotenv.config()
 
 connect();
-
-function location() {
-    let latitude = 0
-    let longitude = 0
-    if (typeof window !== 'undefined' && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            console.log(latitude)
-            return {latitude, longitude}
-          },
-          (error) => {
-            console.error('Error getting geolocation:', error.message);
-          }
-        );
-        return {latitude, longitude}
-      } 
-      else {
-        console.error('Geolocation is not supported by this browser.');
-      }
-      return {latitude, longitude}
-}
-
 
 export async function POST(req: NextRequest) {
     try {
@@ -55,16 +32,9 @@ export async function POST(req: NextRequest) {
     }
 }
 
-export async function GET(req: NextRequest) {
-  // if (typeof window !== 'undefined' && navigator.geolocation) {
-  //   navigator.geolocation.getCurrentPosition(
-  //     async (position) => {
-  //       const latitude = position.coords.latitude;
-  //       const longitude = position.coords.longitude;
-  //       console.log(latitude);
-        
+export async function GET(req: NextApiRequest) {      
         try {
-          const data = await Forum.find().sort({ created_at: -1 });
+        const data = await Forum.find().sort({ created_at: -1 });
           if (!data || data.length === 0) {
             return NextResponse.json({ message: "No posts found" });
           }
@@ -73,14 +43,8 @@ export async function GET(req: NextRequest) {
           console.log(error);
           return NextResponse.json({ error, message: "An error occurred fetching posts" });
         }
-  //     },
-  //     (error) => {
-  //       console.error('Error getting geolocation:', error.message);
-  //     }
-  //   );
-  // } else {
-  //   console.error('Geolocation is not supported by this browser.');
-  // }
+
 }
+
 
 
