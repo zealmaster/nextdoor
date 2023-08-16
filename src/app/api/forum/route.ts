@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import Forum from "@/app/model/forumModel";
 import Jwt  from "jsonwebtoken";
 import * as dotenv from 'dotenv'
-import { NextApiRequest } from "next";
 dotenv.config()
 
 connect();
@@ -32,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
 }
 
-export async function GET(req: NextApiRequest) {      
+export async function GET(req: NextRequest) {      
         try {
         const data = await Forum.find().sort({ created_at: -1 });
           if (!data || data.length === 0) {
