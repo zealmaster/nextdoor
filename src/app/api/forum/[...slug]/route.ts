@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
       for(let i in fetchData) {
       const distance = calculateDistance(latitude, longitude, Number(fetchData[i].latitude), Number(fetchData[i].longitude));
       console.log(distance)
-        if (!Number.isNaN(distance) && Number(distance) < 1000) {
+        if (!Number.isNaN(distance) && Number(distance) < 300) {
           data.push(fetchData[i])}
     }
       if (!fetchData || fetchData.length === 0) {
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance : Number = R * c;
-    return distance.toFixed(2);
+    return Number(distance.toFixed(2));
   }
 
   const degToRad = (deg: number) => {
