@@ -10,14 +10,12 @@ connect();
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
-        const { disLike, postId } = data;
-        console.log(data)
+        const { dislike, postId } = data;
         const fetchPost = await Forum.findById({_id: postId})
-        const dislikeSum = disLike + Number(fetchPost.dislikes)
+        const dislikeSum = dislike + Number(fetchPost.dislikes)
         const token = req.cookies.get('token')?.value || ""
         const decoded: any = Jwt.verify(token, process.env.JWT_SECRET!)
         const username= decoded.username
-
         
        const response = await Forum.updateOne(
             { _id: fetchPost._id },
@@ -25,10 +23,10 @@ export async function POST(req: NextRequest) {
                 $set: { dislikes:  dislikeSum }
             }
           );
-        return NextResponse.json({message: "Comment sent successfully"})
+        return NextResponse.json({message: "like sent successfully"})
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ message: "An error occurred while posting comment" });
+        return NextResponse.json({ message: "An error occurred while posting like" });
     }
 }
 

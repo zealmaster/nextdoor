@@ -11,13 +11,11 @@ export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
         const { like, postId } = data;
-            console.log(data)
         const fetchPost = await Forum.findById({_id: postId})
         const likeSum = like + Number(fetchPost.likes)
         const token = req.cookies.get('token')?.value || ""
         const decoded: any = Jwt.verify(token, process.env.JWT_SECRET!)
         const username= decoded.username
-
         
        const response = await Forum.updateOne(
             { _id: fetchPost._id },

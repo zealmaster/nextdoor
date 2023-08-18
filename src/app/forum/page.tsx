@@ -14,8 +14,8 @@ const ForumFeeds = () => {
     })
     const [latitude, setLatitude] = useState(0)
     const [longitude, setLongitude] = useState(0)
-    const [like, setLike] = useState(0)
-    const [dislike, setDislike] = useState(0)
+    const [like] = useState(1)
+    const [dislike] = useState(1)
     const [posts, setPosts] = useState([""])
     const [comment, setComment] = useState([""])
     const [commentCount, setCommentCount] = useState(0)
@@ -42,8 +42,8 @@ const ForumFeeds = () => {
           console.log(latitude, longitude)
             try {
               const response = await axios.get(`/api/forum/${latitude}/${longitude}`);
+              // ${latitude}/${longitude}
               if (response.data.data !== null) setPosts(response.data.data);
-              console.log(response.data)
             } catch (error) {
               console.error('Error fetching data:', error);
             }
@@ -65,7 +65,6 @@ const ForumFeeds = () => {
         try {
             if (userPost.message !== "share it!" && userPost.message !== " "){
             const response = await axios.post('/api/forum', postData)
-            console.log(response.data.message)
             router.refresh()
             window.location.reload()
         }
@@ -74,32 +73,32 @@ const ForumFeeds = () => {
         }
     }
 
-    const onLike = async () => {
+    // Post like
+    const onLike = async (id: number) => {
       try {
-        setLike(like + 1)
-        const response = await axios.post('/api/like', {like, postId})
+        const response = await axios.post('/api/like', {like, postId: id})
+        console.log(response.data.message)
         router.refresh()
-        console.log(postId)
-        console.log(like)
+        window.location.reload()
       } catch (error) {
         console.log(error)
       }
     }
 
-    const onDislike = async () => {
+    // Post disLike
+    const onDislike = async (id: number) => {
       try {
-        setDislike(dislike + 1)
-        const response = await axios.post('/api/dislike', {dislike, postId})
+        const response = await axios.post('/api/dislike', {dislike, postId: id})
+        console.log(response.data.message)
         router.refresh()
-        console.log(postId)
-        console.log(dislike)
+        window.location.reload()
       } catch (error) {
         console.log(error)
       }
     }
 
-    const onComment = (postId: any) => {
-    
+    const onComment = (Id: any) => {
+      if (Id !== postId) setOpenComment(openComment)
       setOpenComment(!openComment)
     };
 
@@ -152,7 +151,8 @@ const ForumFeeds = () => {
                             height={15} 
                             width={15} 
                             alt='like a post' 
-                            onClick={()=>{onLike(); setPostId(item._id)}}
+                            onClick={()=>{onLike(item._id)}}
+                            style={{fill: "red" }}
                             />
                             {item.likes}
                       </span> 
@@ -164,7 +164,7 @@ const ForumFeeds = () => {
                         width={15} 
                         alt='comment on post' 
                         onClick={() => onComment(item._id)}
-                        />{commentCount}</span>
+                        />{item !== 'undefined' && (item.comments.length)}</span>
                       
                         <span>
                         <Image 
@@ -172,7 +172,7 @@ const ForumFeeds = () => {
                         height={15} 
                         width={15} 
                         alt='dislike a post' 
-                        onClick={()=>{onDislike(); setPostId(item._id);}}
+                        onClick={()=>{onDislike(item._id)}}
                         />
                         {item.dislikes}
                       </span>

@@ -49,7 +49,16 @@ const forumSchema = new mongoose.Schema({
     dislikes:  {
                 type: Number,
                 default: 0
-        }
+        },
+    
+    likedBy: [{
+        type: String,
+    }],
+
+    disLikedBy: [{
+                type: String,
+            }]
+    
 })
 
 const Forum = mongoose.models.forums || mongoose.model('forums', forumSchema)

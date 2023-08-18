@@ -6,7 +6,7 @@ const MigrationFile = () => {
     
     const connectToMigration = async () => {
         try{
-           const response = await axios.post('/api/migration', {comment: []})
+           const response = await axios.post('/api/migration')
            console.log(response.data)
         } catch (error) {
             console.log(error)

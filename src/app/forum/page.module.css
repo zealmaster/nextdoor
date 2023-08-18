@@ -191,7 +191,9 @@
         padding: 4px;
         margin: 10px;
       }
+
   }
+
   @media screen and (min-width: 761px) and (max-width: 1000px) {
     /* .form {
         position: absolute;

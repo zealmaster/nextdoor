@@ -43,6 +43,7 @@ const Signup = () => {
             setErrorMsg(await response.data.message)
             if (await response.data.message === "Please turned on your device location") redirect.push('/locationUpdate')
             if (await response.data.message === "You are at home") redirect.push('/forum')
+            window.location.reload()
         } catch (error: any) {
             console.log(error.message)
             setErrorMsg(error.message)
