@@ -164,7 +164,7 @@ const ForumFeeds = () => {
                         width={15} 
                         alt='comment on post' 
                         onClick={() => onComment(item._id)}
-                        />{item.comments !== 'undefined' && (item.comments.length)}</span>
+                        />{commentCount}</span>
                       
                         <span>
                         <Image 
