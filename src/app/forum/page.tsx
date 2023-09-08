@@ -4,8 +4,35 @@ import Image from 'next/image'
 import { useRouter } from "next/navigation"
 import {useEffect, useState} from 'react'
 import axios from 'axios'
-import Link from 'next/link'
 import LoadingComponent from './loading'
+import dayjs from 'dayjs'
+
+function getRelativeTime(postTimestamp: any) {
+  const now = dayjs(); 
+  const postDate = dayjs(postTimestamp); 
+
+  const secondsDiff = now.diff(postDate, 'second');
+  const minutesDiff = now.diff(postDate, 'minute');
+  const hoursDiff = now.diff(postDate, 'hour');
+  const daysDiff = now.diff(postDate, 'day');
+  const monthsDiff = now.diff(postDate, 'month');
+  const yearsDiff = now.diff(postDate, 'year');
+
+  if (secondsDiff < 60) {
+    return `${secondsDiff} second${secondsDiff === 1 ? '' : 's'} ago`;
+  } else if (minutesDiff < 60) {
+    return `${minutesDiff} minute${minutesDiff === 1 ? '' : 's'} ago`;
+  } else if (hoursDiff < 24) {
+    return `${hoursDiff} hour${hoursDiff === 1 ? '' : 's'} ago`;
+  } else if (daysDiff < 30) {
+    return `${daysDiff} day${daysDiff === 1 ? '' : 's'} ago`;
+  } else if (monthsDiff < 12) {
+    return `${monthsDiff} month${monthsDiff === 1 ? '' : 's'} ago`;
+  } else {
+    return `${yearsDiff} year${yearsDiff === 1 ? '' : 's'} ago`;
+  }
+}
+
 
 const ForumFeeds = () => {
    const router = useRouter()
@@ -133,14 +160,15 @@ const ForumFeeds = () => {
                   <button type='submit' className={styles.postButton}>Post</button>
               </form>
               </div>
+
               {(typeof posts !== 'undefined' && posts.length !== 0) && posts.map((item:any) => (
               <section key={item._id}  className={styles.post}>
                   <div className={styles.author}>
                       <span className={styles.authorDP}>
                           <Image src='/profile.png' width={20} height={20} alt='user profile picture' />
                       </span>
-                      <span>{item.username}</span> 
-                      <span>{item.created_at}</span>
+                      <span style={{fontWeight: 700, fontSize: 14}}>{item.username}</span> 
+                      <span>- {getRelativeTime(item.created_at)}</span>
                   </div>
                   <div>{item.message}</div>
 
@@ -182,7 +210,7 @@ const ForumFeeds = () => {
                   <div className={!openComment ? styles.showComment : styles.hideComment} >
                   {item.comments !== undefined  && (item.comments).map((value:any) => (
                       <div className={styles.comment} key={value._id}>
-                            <span>{value.author}</span> <span>{value.createdAt}</span>
+                            <span style={{fontWeight: 700, fontSize: 14}}>{value.author}</span> <span>- {getRelativeTime(value.createdAt)}</span>
                             <section>{value.comment}</section>
                       </div>
                         ))}

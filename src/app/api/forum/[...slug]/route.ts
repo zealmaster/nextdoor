@@ -10,10 +10,9 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     const longitude = Number(slug[1])
     let data = []
     try {
-      const fetchData = await Forum.find(  ).sort({ created_at: -1 });
+      const fetchData = await Forum.find().sort({ created_at: -1 });
       for(let i in fetchData) {
-      const distance = calculateDistance(latitude, longitude, Number(fetchData[i].latitude), Number(fetchData[i].longitude));
-      console.log(distance)
+      const distance = calculateDistance(Number(fetchData[i].latitude), Number(fetchData[i].longitude), latitude, longitude);
         if (!Number.isNaN(distance) && Number(distance) < 300) {
           data.push(fetchData[i])}
     }
