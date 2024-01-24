@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
         const token = req.cookies.get('token')?.value || ""
         req.cookies.delete(token);        
         const response = NextResponse.json({message: "Logout successfully"})
-        response.cookies.set('token', '', {httpOnly: true})
+        response.cookies.set('token', '', {expires: new Date(0), httpOnly: true})
         return response
     } catch (error) {
         console.log(error);

@@ -7,7 +7,7 @@ import axios from 'axios'
 import LoadingComponent from './loading'
 import dayjs from 'dayjs'
 
-function getRelativeTime(postTimestamp: any) {
+const getRelativeTime = (postTimestamp: any) => {
   const now = dayjs(); 
   const postDate = dayjs(postTimestamp); 
 
@@ -45,13 +45,14 @@ const ForumFeeds = () => {
     const [dislike] = useState(1)
     const [posts, setPosts] = useState([""])
     const [comment, setComment] = useState([""])
-    const [commentCount, setCommentCount] = useState(0)
-    const [openComment, setOpenComment] = useState(false)
+    const [commentCount, setCommentCount] = useState('')
+    const [openCommentIndex, setOpenCommentIndex] = useState(null);    
     const [isLoading, setIsLoading] = useState(true)
     const [postId, setPostId] = useState("")
 
     const postData = {...userPost, latitude, longitude}
     const commentData = {postId, comment}
+    
     
       useEffect(()=>{
         setTimeout(() => {
@@ -124,11 +125,13 @@ const ForumFeeds = () => {
       }
     }
 
-    const onComment = (Id: any) => {
-      if (Id !== postId) setOpenComment(openComment)
-      setOpenComment(!openComment)
-    };
-
+    const toggleComments = (index: any) => {
+      if (openCommentIndex === index) {
+        setOpenCommentIndex(null);
+      } else {
+        setOpenCommentIndex(index);
+      }
+    }
     // Comment on post
     const postComment = async (e:any) => {
       try {
@@ -170,47 +173,46 @@ const ForumFeeds = () => {
                       <span style={{fontWeight: 700, fontSize: 14}}>{item.username}</span> 
                       <span>- {getRelativeTime(item.created_at)}</span>
                   </div>
-                  <div>{item.message}</div>
+                  <div className={styles.postContent}>{item.message}</div>
 
                   <div className={styles.reaction}>
-                      <span>
+                      <span className={styles.rxtSpan}>
                             <Image 
                             src='/heart.png' 
-                            height={15} 
-                            width={15} 
+                            height={9} 
+                            width={10} 
                             alt='like a post' 
                             onClick={()=>{onLike(item._id)}}
                             style={{fill: "red" }}
                             />
                             {item.likes}
                       </span> 
-
-                      <span>
+                      <span onClick={() => toggleComments(item._id)} className={styles.rxtSpan}>
                         <Image 
                         src='/chat.png' 
                         height={15} 
                         width={15} 
                         alt='comment on post' 
-                        onClick={() => onComment(item._id)}
-                        />{commentCount}</span>
+                        /><span>{commentCount}</span></span>
                       
-                        <span>
+                        <span className={styles.rxtSpan}>
                         <Image 
                         src='/negative-vote.png' 
-                        height={15} 
-                        width={15} 
+                        height={9} 
+                        width={10} 
                         alt='dislike a post' 
                         onClick={()=>{onDislike(item._id)}}
                         />
-                        {item.dislikes}
+                        <span>{item.dislikes}</span>
                       </span>
 
                   </div>
 
-                  <div className={!openComment ? styles.showComment : styles.hideComment} >
+                  <div className={openCommentIndex === item._id ? styles.showComment : styles.hideComment}>
+                    
                   {item.comments !== undefined  && (item.comments).map((value:any) => (
                       <div className={styles.comment} key={value._id}>
-                            <span style={{fontWeight: 700, fontSize: 14}}>{value.author}</span> <span>- {getRelativeTime(value.createdAt)}</span>
+                            <span style={{fontWeight: 600, fontSize: 13}}>{value.author }</span> <span>- {getRelativeTime(value.createdAt)}</span>
                             <section>{value.comment}</section>
                       </div>
                         ))}
