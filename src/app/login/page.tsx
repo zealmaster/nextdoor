@@ -54,7 +54,7 @@ const Signup = () => {
            <div>
             <div className={styles.signupHeader}>Login</div>
             <form className={styles.form} onSubmit={onLogin}>
-              {errorMsg && <div>{errorMsg}</div>}
+              {errorMsg && <div style={{"color":"red"}}>{errorMsg}</div>}
                 <div className={styles.formField}>
                   <label>Username</label>
                   <input 
