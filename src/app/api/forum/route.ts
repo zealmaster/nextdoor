@@ -15,12 +15,17 @@ export async function POST(req: NextRequest) {
         const token = req.cookies.get('token')?.value || ""
         const decoded: any = Jwt.verify(token, process.env.JWT_SECRET!)
         const username= decoded.username
+        const location = {
+          type: "Point",
+          coordinates: [longitude, latitude] 
+        };
 
         const postData = new Forum( {
             username,
             message,
             latitude,
             longitude,
+            location,
             comments: []
         })
         const post = await postData.save()

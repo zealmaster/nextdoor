@@ -22,6 +22,10 @@ const forumSchema = new mongoose.Schema({
         type: Number,
         default: null
     },
+    location: {
+        type: { type: String, enum: ['Point'], required: true},
+        coordinates: { type: [Number], required: true}
+    },
     created_at: {
         type: Date,
         default: Date.now()
@@ -60,7 +64,7 @@ const forumSchema = new mongoose.Schema({
             }]
     
 })
-
+forumSchema.index({ location: '2dsphere' });
 const Forum = mongoose.models.forums || mongoose.model('forums', forumSchema)
 
 export default Forum;
