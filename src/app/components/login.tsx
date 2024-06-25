@@ -1,6 +1,12 @@
-import { NextRequest } from "next/server";
+// login.js or auth.js
 
-export function isLoggedIn(req: NextRequest) {
-    const token = req.cookies.get('token')?.value || '';
-    if (token) return true;
-}
+export const isLoggedIn = async () => {
+    try {
+        const response = await fetch('/api/checkLogin');
+        const data = await response.json();
+        return data.loggedIn;
+    } catch (error) {
+        console.error("Error checking login status:", error);
+        return false;
+    }
+};
