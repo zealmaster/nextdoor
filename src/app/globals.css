@@ -9,11 +9,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* overflow: hidden; */
   background-image: linear-gradient(to right, rgb(77, 77, 122), rgb(27, 27, 26));
   animation: gradient 6s ease infinite;
   background-size: 200% auto;
-  /* Vendor prefixes */
   -webkit-animation: gradient 6s ease infinite;
   -moz-animation: gradient 6s ease infinite;
   -o-animation: gradient 6s ease infinite;

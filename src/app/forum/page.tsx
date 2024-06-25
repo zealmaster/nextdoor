@@ -73,7 +73,8 @@ const ForumFeeds = () => {
             const response = await axios.get(
               `/api/forum/${latitude}/${longitude}`
             );
-            if (response.data.data !== null) setPosts(response.data.data);
+            if (response.data.message !== "No posts found")
+              setPosts(response.data.data);
           } catch (error) {
             console.error("Error fetching data:", error);
           }
@@ -92,7 +93,7 @@ const ForumFeeds = () => {
     try {
       if (userPost.message !== "share it!" && userPost.message.trim() !== "") {
         const response = await axios.post("/api/forum", postData);
-        setUserPost({message: "share it!"})
+        setUserPost({ message: "share it!" });
         if (response.data) {
           fetchData();
         }
@@ -189,10 +190,17 @@ const ForumFeeds = () => {
                           alt="user profile picture"
                         />
                       </span>
-                      <span style={{ fontWeight: 700, fontSize: 14 }}>
+                      <span
+                        style={{ fontWeight: 700, fontSize: 14 }}
+                      >
                         {item.username}
                       </span>
-                      <span>- {getRelativeTime(item.created_at)}</span>
+                      <span
+                        style={{ fontWeight: 600, fontSize: 12, color: "grey" }}
+                      >
+                        - {dayjs(item.createdAt).format(`hh:mm:ss a`)}{" "}
+                        {getRelativeTime(item.created_at)}
+                      </span>
                     </div>
                     <div className={styles.postContent}>{item.message}</div>
 
@@ -200,7 +208,7 @@ const ForumFeeds = () => {
                       <span className={styles.rxtSpan}>
                         <Image
                           src="/heart.png"
-                          height={9}
+                          height={10}
                           width={10}
                           alt="like a post"
                           onClick={() => {
@@ -226,7 +234,7 @@ const ForumFeeds = () => {
                       <span className={styles.rxtSpan}>
                         <Image
                           src="/negative-vote.png"
-                          height={9}
+                          height={10}
                           width={10}
                           alt="dislike a post"
                           onClick={() => {
@@ -246,10 +254,34 @@ const ForumFeeds = () => {
                     >
                       {item.comments.map((value: any) => (
                         <div className={styles.comment} key={value._id}>
-                          <span style={{ fontWeight: 600, fontSize: 13 }}>
-                            {value.author}
-                          </span>{" "}
-                          <span>- {getRelativeTime(value.createdAt)}</span>
+                          <div className={styles.author}>
+                            <span className={styles.authorDP}>
+                              <Image
+                                src="/profile.png"
+                                width={20}
+                                height={20}
+                                alt="user profile picture"
+                              />
+                            </span>
+                            <span
+                              style={{
+                                fontWeight: 700,
+                                fontSize: 13,
+                              }}
+                            >
+                              {value.author}
+                            </span>{" "}
+                            <span
+                              style={{
+                                fontWeight: 600,
+                                fontSize: 12,
+                                color: "grey",
+                              }}
+                            >
+                              - {dayjs(value.createdAt).format(`hh:mm:ss a`)}{" "}
+                              {getRelativeTime(value.createdAt)}
+                            </span>
+                          </div>
                           <section>{value.comment}</section>
                         </div>
                       ))}
@@ -267,7 +299,7 @@ const ForumFeeds = () => {
                             setPostId(item._id);
                           }}
                         ></textarea>
-                        <button type="submit"> Comment</button>
+                        <button type="submit"> Reply</button>
                       </form>
                     </div>
                   </section>

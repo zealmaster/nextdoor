@@ -18,11 +18,12 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
             coordinates: [longitude, latitude],
           },
           distanceField: 'dist.calculated',
-          maxDistance: 1000, // 1 km in meters
+          maxDistance: 20000, // 1 km in meters
           spherical: true,
         },
       },
     ]).sort({ createdAt: -1 });
+    // console.log(posts)
     // const fetchData = await Forum.find().sort({ created_at: -1 });
 
     // const distance = calculateDistance(Number(posts[i].latitude), Number(posts[i].longitude), latitude, longitude);
