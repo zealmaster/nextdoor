@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/microphone.jsx", "src/app/components/geolocation.tsx", "src/app/api/checkLogin/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/lib/microphone.jsx", "src/app/components/geolocation.tsx", "src/app/api/checkLogin/route.js"],
   "exclude": ["node_modules"]
 }

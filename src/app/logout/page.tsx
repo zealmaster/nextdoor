@@ -1,13 +1,14 @@
 'use client'
-import axios from "axios"
-import { useRouter } from "next/navigation"
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const Logout = () => {
     const router = useRouter()
-  
-        const onLogout = async() => {
+
+    useEffect(() => {
+        const onLogout = async () => {
             try {
-                router.push('')
                 await axios.get('/api/logout')
                 router.replace('/login')
             } catch (error) {
@@ -15,5 +16,9 @@ const Logout = () => {
             }
         }
         onLogout()
+    }, [router])
+
+    return null
 }
-export default Logout;
+
+export default Logout

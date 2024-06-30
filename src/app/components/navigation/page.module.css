@@ -115,7 +115,7 @@
 
   .openMenu {
     display: block;
-    padding: 50px 10px;
+    padding: 40px 10px;
     gap: 60px;
     background-color: rgb(77, 77, 122);
     position: fixed;
@@ -125,7 +125,7 @@
     height: 100%; 
     opacity: 0.99;
     font-weight: bold;
-    margin: 0 0;
+    margin: 78px 0 0 0;
     transition: all 2s ease-in-out;
   }
 

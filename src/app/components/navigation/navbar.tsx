@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import styles from './page.module.css'
 import { useState, useEffect } from 'react'
-import { isLoggedIn } from '../login'
+import { isLoggedIn } from '../../../lib/login'
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)
