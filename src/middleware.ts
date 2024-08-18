@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get('token')?.value || ""
+  const token = req.cookies.get('token')?.value
   const url = new URL(req.url)
   const loginPath = url.pathname
   if (token && (loginPath === '/login' || loginPath === '/signup' || loginPath === '/')) {
