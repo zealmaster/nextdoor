@@ -11,6 +11,7 @@ const Logout = () => {
             try {
                 await axios.get('/api/logout')
                 router.replace('/login')
+                router.refresh()
             } catch (error) {
                 console.log(error)
             }

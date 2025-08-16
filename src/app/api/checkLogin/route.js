@@ -14,8 +14,10 @@ export async function GET(req) {
 
         // Verify the token
         try {
-            jwt.verify(token.value, process.env.JWT_SECRET);
-            return NextResponse.json({ loggedIn: true });
+            const decoded = jwt.verify(token.value, process.env.JWT_SECRET);
+            if (decoded) {
+                return NextResponse.json({ loggedIn: true });
+            }
         } catch (err) {
             return NextResponse.json({ loggedIn: false });
         }
